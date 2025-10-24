@@ -4,76 +4,341 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ilyas Makhatov — Links</title>
+  <meta name="color-scheme" content="dark light">
   <style>
+    :root {
+      --bg: #0b0b0b;
+      --panel: rgba(255,255,255,0.04);
+      --text: #f4f4f4;
+      --muted: #b7b7b7;
+      --border: rgba(255,255,255,0.12);
+      --card-border: rgba(255,255,255,0.14);
+      --radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.35);
+      --accent-from: #7f5cff;
+      --accent-to: #22d3ee;
+      --accent: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --panel: rgba(0,0,0,0.035);
+        --text: #0b0b0b;
+        --muted: #4a4a4a;
+        --border: rgba(0,0,0,0.12);
+        --card-border: rgba(0,0,0,0.12);
+        --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+      line-height: 1.45;
+      letter-spacing: 0.1px;
     }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
+
+    .halo {
+      position: fixed;
+      inset: -20vmax;
+      background: radial-gradient(40vmax 40vmax at 15% 10%, rgba(127,92,255,0.08), transparent 60%),
+                  radial-gradient(35vmax 35vmax at 85% 20%, rgba(34,211,238,0.10), transparent 60%),
+                  radial-gradient(30vmax 30vmax at 50% 90%, rgba(127,92,255,0.07), transparent 60%);
+      filter: blur(24px) saturate(120%);
+      pointer-events: none;
+      z-index: 0;
     }
-    p {
-      margin-bottom: 2rem;
-      color: #555;
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
     }
-    .link-container {
+
+    header {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 2px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.06), 0 12px 30px rgba(127,92,255,0.25);
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      margin: 0;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      margin: 2px 0 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      font-size: 0.86rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
       gap: 10px;
-      width: 100%;
-      max-width: 380px;
+      margin: 22px 4px 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
     }
-    a {
+    .accent-bar {
+      width: 16px;
+      height: 16px;
+      border-radius: 6px;
+      background: var(--accent);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.06);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)) padding-box,
+                  var(--accent) border-box;
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      padding: 16px 16px 18px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120px 80px at 20% -10%, rgba(255,255,255,0.12), transparent 60%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+    }
+
+    .card a.title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 620;
       text-decoration: none;
-      color: #111;
-      border: 1px solid #111;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: 500;
-      transition: all 0.2s ease;
+      color: var(--text);
+      font-size: 1.02rem;
     }
-    a:hover {
-      background: #111;
-      color: #fff;
+    .chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--panel);
     }
+    .desc {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
     footer {
       margin-top: 40px;
-      font-size: 0.8rem;
-      color: #888;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .mini-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mini-links a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(255,255,255,0.2);
+    }
+    .mini-links a:hover {
+      color: var(--text);
+      border-bottom-color: transparent;
     }
   </style>
 </head>
 <body>
-  <h1>Ilyas Makhatov</h1>
-  <p>Selected Links & References</p>
+  <div class="halo" aria-hidden="true"></div>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <h1>Ilyas Makhatov</h1>
+          <p class="subtitle">Web3-minimal links hub — clean black & white with gradient accent</p>
+        </div>
+      </div>
+      <span class="tag">Updated 2025</span>
+    </header>
 
-  <div class="link-container">
-    <a href="https://github.com/ilyasidk?tab=repositories" target="_blank">GitHub Repositories</a>
-    <a href="https://strayl.dev/" target="_blank">Strayl.dev</a>
-    <a href="https://promptly.kz/" target="_blank">Promptly.kz</a>
-    <a href="https://qazaqproduct.com/" target="_blank">QazaqProduct.com</a>
-    <a href="https://github.com/ilyasidk/ISSAI_part_of_work" target="_blank">ISSAI NU — Research</a>
-    <a href="https://github.com/ilyasidk/wro_samples" target="_blank">WRO Robotics Code</a>
-    <a href="https://www.youtube.com/shorts/PUhoF7tDkvQ" target="_blank">WRO Robot Demo (Pixy2 Cam)</a>
-    <a href="https://semeytany.kz/18351/ilyas-pen-mansur-panamaga-zholdama-aldy" target="_blank">SemeyTany Article</a>
-    <a href="https://vestisemey.kz/15036/ilyas-i-mansur-poluchili-putevku-v-panamu.html" target="_blank">Vesti Semey Article</a>
-    <a href="https://digitalbusiness.kz/2024-12-02/kazahstanskie-shkolniki-zanyali-prizovie-mesta-na-world-robot-olympiad-2024/" target="_blank">DigitalBusiness Article</a>
-    <a href="https://youtu.be/iIaVtzwRE7Q" target="_blank">Video Presentation</a>
-    <a href="https://www.instagram.com/temirqazyq.kz/" target="_blank">Temirqazyq Volunteer Org</a>
-    <a href="https://www.instagram.com/aima_jr/" target="_blank">Aima Jr</a>
-    <a href="https://www.instagram.com/nissm.studentcouncil/" target="_blank">NIS Student Council</a>
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="section-title"><span class="accent-bar"></span> 🚀 Projects</div>
+      <div class="grid">
+        <div class="card">
+          <a class="title" href="https://strayl.dev/" target="_blank">Strayl.dev</a>
+          <div class="desc">AI agent that builds & ships web projects via GitHub + MCP. MVP shipped; early users onboard.</div>
+          <div class="chip">product</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://promptly.kz/" target="_blank">Promptly.kz</a>
+          <div class="desc">AI business assistant (Telegram/WhatsApp), KB + CRM + billing. Paid plans live.</div>
+          <div class="chip">SaaS</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://qazaqproduct.com/" target="_blank">QazaqProduct.com</a>
+          <div class="desc">Launch platform for Kazakhstan startups. Public directory & submissions.</div>
+          <div class="chip">community</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://github.com/ilyasidk?tab=repositories" target="_blank">GitHub Repositories</a>
+          <div class="desc">Public code, robotics samples, and experiments.</div>
+          <div class="chip">code</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Robotics -->
+    <section class="section" id="robotics">
+      <div class="section-title"><span class="accent-bar"></span> 🤖 Robotics & Engineering</div>
+      <div class="grid">
+        <div class="card">
+          <a class="title" href="https://github.com/ilyasidk/wro_samples" target="_blank">WRO Robotics Code</a>
+          <div class="desc">Control with Pixy2; PID + motion profiles (triangular, trapezoidal, S-curve).</div>
+          <div class="chip">code</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://youtu.be/iIaVtzwRE7Q" target="_blank">Robot Demo Video</a>
+          <div class="desc">Autonomous robot showcase from WRO competitions.</div>
+          <div class="chip">video</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media -->
+    <section class="section" id="media">
+      <div class="section-title"><span class="accent-bar"></span> 📰 Media Coverage</div>
+      <div class="grid">
+        <div class="card">
+          <a class="title" href="https://semeytany.kz/18351/ilyas-pen-mansur-panamaga-zholdama-aldy" target="_blank">SemeyTany</a>
+          <div class="desc">Article on WRO Panama qualification.</div>
+          <div class="chip">press</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://vestisemey.kz/15036/ilyas-i-mansur-poluchili-putevku-v-panamu.html" target="_blank">Vesti Semey</a>
+          <div class="desc">Local news coverage of international robotics success.</div>
+          <div class="chip">press</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://digitalbusiness.kz/2024-12-02/kazahstanskie-shkolniki-zanyali-prizovie-mеста-на-world-robot-olympiad-2024/" target="_blank">DigitalBusiness.kz</a>
+          <div class="desc">National recognition for WRO achievements.</div>
+          <div class="chip">press</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research -->
+    <section class="section" id="research">
+      <div class="section-title"><span class="accent-bar"></span> 🌍 Research & Programs</div>
+      <div class="grid">
+        <div class="card">
+          <a class="title" href="https://issai.nu.edu.kz/" target="_blank">ISSAI — NU Summer Research</a>
+          <div class="desc">AI + tensegrity structures; CAD and ML methods; mentored seminars.</div>
+          <div class="chip">research</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social -->
+    <section class="section" id="social">
+      <div class="section-title"><span class="accent-bar"></span> 📱 Social & Community</div>
+      <div class="grid">
+        <div class="card">
+          <a class="title" href="https://www.instagram.com/temirqazyq.kz/" target="_blank">Temirqazyq</a>
+          <div class="desc">Volunteer org — co-founder & leader.</div>
+          <div class="chip">community</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://www.instagram.com/aima_jr/" target="_blank">Aima Jr</a>
+          <div class="desc">Student initiative supporting STEM activities.</div>
+          <div class="chip">community</div>
+        </div>
+        <div class="card">
+          <a class="title" href="https://www.instagram.com/nissm.studentcouncil/" target="_blank">NIS Student Council</a>
+          <div class="desc">Minister of Clubs (2023–2024).</div>
+          <div class="chip">school</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2025 Ilyas Makhatov</div>
+      <div class="mini-links">
+        <a href="#projects">Projects</a>
+        <a href="#robotics">Robotics</a>
+        <a href="#media">Media</a>
+        <a href="#research">Research</a>
+        <a href="#social">Social</a>
+      </div>
+    </footer>
   </div>
-
-  <footer>© 2025 Ilyas Makhatov</footer>
 </body>
 </html>
